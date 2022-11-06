@@ -1,0 +1,74 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+bool LoggingIn() {
+	string username, password, user, pass;
+
+	cout << "Enter Username: "; cin >> username;
+	cout << "Enter Your Password: "; cin >> password;
+
+	ifstream read(username + ".txt");
+	getline(read, user);
+	getline(read, pass);
+
+	if (user == username && pass == password) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+int main() {
+
+	cout << "******************** Welcome to Naomi and John's School Lunch ordering System ********************\n\n";
+	cout << "Please login (or create) to access your account and to order from the menu items.\n\n";
+
+	int choice;
+
+	cout << "Select a choice!\n1: Register\n2: Login\n Your choice: ";
+	cin >> choice;
+
+	if (choice == 1) {
+		string username, password;
+		cout << "Select a Username: ";
+		cin >> username;
+		cout << "Select your Password: ";
+		cin >> password;
+
+		ofstream file;
+		file.open(username + ".txt");
+		file << username << endl << password;
+		file.close();
+
+		main();
+	}
+	else if (choice == 2) {
+		bool status = LoggingIn();
+		if (!status) {
+			cout << "Incorrect Information Entered!, Please Try Again!" << endl;
+			system("PAUSE");
+			return 0;
+		}
+		else {
+			cout << "Login Successful!" << endl;
+			system("PAUSE");
+			return 1;
+		}
+	}
+
+	fstream menuItemsFile;
+	menuItemsFile.open("menu.txt", ios::out);//menu list
+	if (menuItemsFile.is_open()) {
+		menuItemsFile << "Biscuit\n";
+		string line;
+		while (getline(menuItemsFile, line)) {
+			cout << line << endl;
+		}
+		menuItemsFile.close();
+	}
+
+}
