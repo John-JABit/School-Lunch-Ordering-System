@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <cmath>
+#include<vector>
 
 using namespace std;
 
@@ -37,7 +38,7 @@ const float itemPrice[10] = { 0,10.5,12,14.3,16,8.5,4,5.3,50,200 };
 
 void menu() {
 
-	cout << "+++++++++++++Menu+++++++++++++++++++\n";
+	cout << "+++++++++++++Lunch Menu+++++++++++++++++++\n";
 	cout << "1:Meat Wrap $" << itemPrice[1] << endl;
 	cout << "2:Vegan Wrap $" << itemPrice[2] << endl;
 	cout << "3:Chicken Sandwich $" << itemPrice[3] << endl;
@@ -47,6 +48,7 @@ void menu() {
 	cout << "7:Fruit and Nut Bar $" << itemPrice[7];
 	cout << "8:Weekly Lunch Special(weekdays) $" << itemPrice[8] << endl;
 	cout << "9:Monthly Lunch Special(weekdays) $" << itemPrice[9] << endl;
+	cout << "++++++++++++++++++++++++++++++++++++++++++++\n"
 
 }
 
@@ -54,12 +56,24 @@ int main() {
 
 	int lunchItemsCord;
 	int quantity;//User to enter quantity wanted
-	float totalItemPrice;
+	double totalItemPrice;
 	char answer;
 
+	//fstream to write a file for lunch menu
+	fstream lunchFile;
+
+	lunchFile.open("lunch.csv", ios::out);//write title
+	if (lunchFile.is_open()) {
+		lunchFile << "Item Name" << ","
+			<< "Unit Price" << ","
+			<< "Quantity" << ","
+			<< "Total Price" << endl;
+
+		lunchFile.close();
+	}
 	menu();
-	
-		do {
+
+	do {
 		cout << "Please enter your selection : ";
 		cin >> lunchItemsCord;
 
@@ -104,27 +118,22 @@ int main() {
 			<< enum_str[lunchItemsCord] << " $" << itemPrice[lunchItemsCord] << " x "
 			<< quantity << "	Totalprice $" << totalItemPrice << endl;
 
-		cout << "Would you like to choose anything else?(y/n) :";
-		cin >> answer;
 
-	} while (answer == 'y');
-			
-	system("pause>0");
-}
-	//fstream to write a file for lunch menu
-		/*fstream lunchFile;
-		lunchFile.open("lunch.txt", ios::out);//write
+		lunchFile.open("lunch.csv", ios::app);//fstream to append file for lunch menu
 		if (lunchFile.is_open()) {
-			lunchFile << "*********** Lunch Menu ************\n\n";
-			lunchFile << "Please select from the following:\n ";
+			lunchFile << enum_str[lunchItemsCord] << ","
+				<< itemPrice[lunchItemsCord] << ","
+				<< quantity << ","
+				<< totalItemPrice << endl;
+	
 			lunchFile.close();
 		}
-	//fstream to append file for lunch menu
-		lunchFile.open("lunch.txt", ios::app);//append
-		if (lunchFile.is_open()) {
-			lunchFile << "Meat Wrap(1)\n";
-			lunchFile.close();
-		}*/
+		cout << "Would you like to choose anything else?(y/n) :";
+		cin >> answer;
+	} while (answer == 'y');
+
+	system("pause>0");
+}
 		//fstream to read file
 			/*fstream lunchFile;
 			lunchFile.open("lunch.txt", ios::in);//read
