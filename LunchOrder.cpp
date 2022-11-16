@@ -34,9 +34,9 @@ static const char* enum_str[] = {
 	"monthlySpecialOrder"
 };
 
-const float itemPrice[10] = { 0,10.5,12,14.3,16,8.5,4,5.3,50,200 };
+const vector <double> itemPrice = { 0,10.5,12,14.3,16,8.5,4,5.3,50,200 };
 
-void menu() {
+void menu(){
 
 	cout << "+++++++++++++Lunch Menu+++++++++++++++++++\n";
 	cout << "1:Meat Wrap $" << itemPrice[1] << endl;
@@ -48,7 +48,7 @@ void menu() {
 	cout << "7:Fruit and Nut Bar $" << itemPrice[7];
 	cout << "8:Weekly Lunch Special(weekdays) $" << itemPrice[8] << endl;
 	cout << "9:Monthly Lunch Special(weekdays) $" << itemPrice[9] << endl;
-	cout << "++++++++++++++++++++++++++++++++++++++++++++\n"
+	cout << "++++++++++++++++++++++++++++++++++++++++++++\n";
 
 }
 
