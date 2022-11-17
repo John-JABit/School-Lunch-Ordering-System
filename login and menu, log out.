@@ -1,0 +1,230 @@
+//John and Naomi's School Lunch ordering System
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <cmath>
+#include<vector>
+
+
+using std::fstream;
+using namespace std;
+
+//Enum created to store lunch items
+
+enum lunchItems {
+	meatWrap = 1,
+	veganWrap,
+	chickenSandwich,
+	vegSandwich,
+	fruitSlices,
+	upandGo,
+	fruitandNutBar,
+	weeklySpecialOrder,
+	monthlySpecialOrder
+};
+
+static const char* enum_str[] = {
+	"-",
+	"meatWrap",
+	"veganWrap",
+	"chickenSandwich",
+	"vegSandwich",
+	"fruitSlices",
+	"upandGo",
+	"fruitandNutBar",
+	"weeklySpecialOrder",
+	"monthlySpecialOrder"
+};
+
+const vector <double> itemPrice = { 0,10.5,12,14.3,16,8.5,4,5.3,50,200 };
+
+void menu() {
+
+	cout << "+++++++++++++Lunch Menu+++++++++++++++++++\n";
+	cout << "1:Meat Wrap $" << itemPrice[1] << endl;
+	cout << "2:Vegan Wrap $" << itemPrice[2] << endl;
+	cout << "3:Chicken Sandwich $" << itemPrice[3] << endl;
+	cout << "4:Veg Sandwich $" << itemPrice[4] << endl;
+	cout << "5:Fruit Slices $" << itemPrice[5] << endl;
+	cout << "6:Up and Go $" << itemPrice[6] << endl;
+	cout << "7:Fruit and Nut Bar $" << itemPrice[7] << endl;
+	cout << "8:Weekly Lunch Special(weekdays) $" << itemPrice[8] << endl;
+	cout << "9:Monthly Lunch Special(weekdays) $" << itemPrice[9] << endl;
+	cout << "++++++++++++++++++++++++++++++++++++++++++++\n";
+
+}
+
+//Login content
+bool LoggingIn() {
+	string username, password, user, pass;
+
+	cout << "Enter Username: "; cin >> username; //Asks user for username
+	cout << "Enter Your Password: "; cin >> password; //Asks user for password
+
+	ifstream read(username + ".csv");
+	getline(read, user);
+	getline(read, pass);
+
+	if (user == username && pass == password) { //If user enters correct username and password, returns true condition
+		return true;
+	}
+	else { //Or returns false if credentials are not correct
+		return false;
+	}
+
+	if (user == username && pass == password) {
+		if (bool status = true) {
+
+
+
+		}
+	}
+}
+
+//Payment
+//Main function
+int main() {
+
+	cout << "******************** Welcome to Naomi and John's School Lunch ordering System ********************\n\n";
+	cout << "Please login (or create), to access your account and to order from the menu items.\n\n";
+
+	//Login
+	//User to select choice for login or register
+	int choice;
+
+	cout << "Select a choice!\n1: Register\n2: Login\n Your choice: ";
+	cin >> choice;
+	//User to enter username and password	
+	if (choice == 1) {
+		string username, password;
+		cout << "Select a Username: ";
+		cin >> username;
+		cout << "Select your Password: ";
+		cin >> password;
+		//Creates file for user
+		ofstream file;
+		file.open(username + ".csv");
+		file << username << endl << password;
+		file.close();
+
+		main();
+	}
+	else if (choice == 2) { //If user enters wrong credentials
+		bool status = LoggingIn();
+		if (!status) {
+			cout << "Incorrect Information Entered!, Please Try Again!" << endl;
+			system("PAUSE");
+			return 0;
+		}
+		else { //Login successful
+			cout << "Login Successful!\n";
+			//system("PAUSE");
+			if (bool status = true) {
+				fstream lunchFile;
+				lunchFile.open("lunch.csv", ios::in);//read file
+				if (lunchFile.is_open()) {
+					string line;
+					while (getline(lunchFile, line)) {
+						cout << line << endl;
+					}
+					lunchFile.close();
+				}
+
+				int lunchItemsCord;
+				int quantity;//User to enter quantity wanted
+				double totalItemPrice;
+				char answer;
+
+				//fstream to write a file for lunch menu
+				//fstream lunchFile;
+
+				lunchFile.open("lunch.csv", ios::out);//write title
+				if (lunchFile.is_open()) {
+					lunchFile << "Item Name" << " ,"
+						<< "Unit Price" << " ,"
+						<< "Quantity" << " ,"
+						<< "Total Price" << endl;
+
+					lunchFile.close();
+				}
+				menu();
+
+				do {
+					cout << "Please enter your selection : ";
+					cin >> lunchItemsCord;
+
+					cout << "You have entered: ";
+					switch (lunchItemsCord) { //Switch case for displaying selected lunch itemsmeatWrap,
+
+					case meatWrap: cout << "Meat Wrap\n";
+
+						break;
+					case veganWrap: cout << "Vegan Wrap\n";
+
+						break;
+					case chickenSandwich: cout << "Chicken Sandwich\n";
+
+						break;
+					case vegSandwich: cout << "Veg Sandwich\n";
+
+						break;
+					case fruitSlices: cout << "Fruit Slices\n";
+
+						break;
+					case upandGo: cout << "Up And Go\n";
+
+						break;
+					case fruitandNutBar: cout << "Fruit And Nut Bar\n";
+
+						break;
+					case weeklySpecialOrder: cout << "Weekly Special lunch(weekdays)\n";
+
+						break;
+					case monthlySpecialOrder: cout << "Monthly Special lunch(weekddays)\n";
+
+						break;
+					}
+
+					cout << "Please enter your Quantity: ";
+					cin >> quantity;
+
+					totalItemPrice = itemPrice[lunchItemsCord] * quantity;
+
+					cout << "You have selected: "
+						<< enum_str[lunchItemsCord] << " $" << itemPrice[lunchItemsCord] << " x "
+						<< quantity << "	Totalprice $" << totalItemPrice << endl;
+
+
+					lunchFile.open("lunch.csv", ios::app);//fstream to append file for lunch menu
+					if (lunchFile.is_open()) {
+						lunchFile << enum_str[lunchItemsCord] << ","
+							<< itemPrice[lunchItemsCord] << ","
+							<< quantity << ","
+							<< totalItemPrice << endl;
+
+						lunchFile.close();
+					}
+					cout << "Would you like to choose anything else?(y/n) :";
+					cin >> answer;
+				} while (answer == 'y');
+				if (answer == 'n');
+				cout << "You have logged out, Program will close now";
+				exit(0);
+
+				//system("pause>0");
+			}
+		}
+	}
+}
+//fstream to read file
+	/*fstream lunchFile;
+	lunchFile.open("lunch.txt", ios::in);//read
+	if (lunchFile.is_open()) {
+		string line;
+		while (getline(lunchFile, line)) {
+			cout << line << endl;
+		}
+		lunchFile.close();
+	}*/
+
+	//system("pause>0");
